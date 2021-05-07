@@ -1,7 +1,6 @@
-const router = require("express").Router();
 const Comment = require("../models/Comment");
 
-router.get("/", (req, res) => {
+exports.fetch = (req, res) => {
   Comment.find({}, (err, result) => {
     if (err) {
       console.log(err);
@@ -10,9 +9,9 @@ router.get("/", (req, res) => {
       res.send(result);
     }
   });
-});
+};
 
-router.post("/create", (req, res) => {
+exports.create = (req, res) => {
   const comment = new Comment({
     ...req.body,
   });
@@ -24,6 +23,31 @@ router.post("/create", (req, res) => {
       res.end();
     }
   });
-});
+};
 
-module.exports = router;
+exports.update = (req, res) => {
+  Comment.updateOne(
+    { _id: req.params.id },
+    { ...req.body, updated_at: new Date() },
+    {},
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+      } else {
+        res.end();
+      }
+    }
+  );
+};
+
+exports.delete = (req, res) => {
+  Comment.deleteOne({ _id: req.params.id }, {}, (err) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.end();
+    }
+  });
+};

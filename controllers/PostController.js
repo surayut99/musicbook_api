@@ -1,9 +1,6 @@
 const Post = require("../models/Post.js");
-const { route } = require("../routes/router.js");
 
-const router = require("express").Router();
-
-router.get("/", (req, res) => {
+exports.fetch = (req, res) => {
   Post.find({}, (err, result) => {
     if (err) {
       console.log(err);
@@ -12,9 +9,9 @@ router.get("/", (req, res) => {
       res.send(result);
     }
   });
-});
+};
 
-router.post("/create", (req, res) => {
+exports.create = (req, res) => {
   const post = new Post({
     ...req.body,
   });
@@ -26,9 +23,9 @@ router.post("/create", (req, res) => {
       res.end();
     }
   });
-});
+};
 
-router.put("/update/:id", (req, res) => {
+exports.update = (req, res) => {
   Post.updateOne(
     { _id: req.params.id },
     {
@@ -45,9 +42,9 @@ router.put("/update/:id", (req, res) => {
       }
     }
   );
-});
+};
 
-router.delete("/delete/:id", (req, res) => {
+exports.delete = (req, res) => {
   Post.deleteOne(
     {
       _id: req.params.id,
@@ -61,9 +58,9 @@ router.delete("/delete/:id", (req, res) => {
       }
     }
   );
-});
+};
 
-router.put("/like/:id", (req, res) => {
+exports.like = (req, res) => {
   Post.updateOne(
     { _id: req.params.id },
     {
@@ -80,6 +77,4 @@ router.put("/like/:id", (req, res) => {
       }
     }
   );
-});
-
-module.exports = router;
+};

@@ -2,10 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const { URI, PORT } = require("./config");
-const router = require("./routes/router");
-
+const router = require("./routes/RouterCombiner");
 const app = express();
 
+// connect to database
 mongoose.connect(
   URI,
   {
@@ -20,6 +20,7 @@ mongoose.connect(
   }
 );
 
+// config app
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -28,11 +29,15 @@ app.use(
   })
 );
 app.use(router);
+app.listen(PORT, () => {
+  console.log("\nServer is running on port:", PORT);
+});
 
+// router for index
 app.get("/", (req, res) => {
   res.send("Welcome to our musicbook API");
 });
 
-app.listen(PORT, () => {
-  console.log("Server is running on port:", PORT);
+app.use((req, res) => {
+  res.send("Cannot solve your path");
 });
