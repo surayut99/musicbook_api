@@ -15,6 +15,7 @@ exports.create = (req, res) => {
   const comment = new Comment({
     ...req.body,
   });
+
   comment.save((err) => {
     if (err) {
       console.log(err);
@@ -29,7 +30,7 @@ exports.update = (req, res) => {
   Comment.updateOne(
     { _id: req.params.id },
     { ...req.body, updated_at: new Date() },
-    {},
+    null,
     (err) => {
       if (err) {
         console.log(err);

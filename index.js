@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const { URI, PORT } = require("./config");
-const router = require("./routes/RouterCombiner");
+const router = require("./routes/router");
 const app = express();
 
 // connect to database
@@ -35,7 +35,7 @@ app.listen(PORT, () => {
 
 // router for index
 app.get("/", (req, res) => {
-  res.send("Welcome to our musicbook API");
+  res.send("Welcome to musicbook API");
 });
 
 app.use((req, res) => {
